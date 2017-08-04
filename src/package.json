@@ -5,7 +5,7 @@
   "description": "Messenger in the cloud",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "test": "swagger project test"
   },
   "repository": {

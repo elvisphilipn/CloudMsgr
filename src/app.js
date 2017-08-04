@@ -22,7 +22,7 @@ SWAGGER_EXPRESS.create(config, function(err, swaggerExpress) {
   APP.listen(port);
 
   if (swaggerExpress.runner.swagger.paths['/hello']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
-		console.log('curl http://127.0.0.1:' + port + '/docs');
+    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott' +
+      '\ncurl http://127.0.0.1:' + port + '/docs');
   }
 });
