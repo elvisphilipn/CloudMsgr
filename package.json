@@ -1,10 +1,12 @@
 {
   "name": "cloudmsgr",
   "version": "1.0.0",
+  "private": true,
   "description": "Messenger in the cloud",
   "main": "index.js",
   "scripts": {
-    "test": "text.js"
+    "start": "node app.js",
+    "test": "swagger project test"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,8 @@
   },
   "homepage": "https://github.com/elvisphilipn/CloudMsgr#readme",
   "dependencies": {
-    "express": "^4.15.3",
-    "swagger": "^0.7.5"
+    "express": "^4.12.3",
+    "swagger-express-mw": "^0.1.0",
+    "swagger-tools": "^0.10.1"
   }
 }
