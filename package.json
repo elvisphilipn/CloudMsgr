@@ -1,0 +1,27 @@
+{
+  "name": "cloudmsgr",
+  "version": "1.0.0",
+  "description": "Messenger in the cloud",
+  "main": "index.js",
+  "scripts": {
+    "test": "text.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elvisphilipn/CloudMsgr.git"
+  },
+  "keywords": [
+    "Cloud",
+    "Messenger"
+  ],
+  "author": "Elvis-Philip N",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/elvisphilipn/CloudMsgr/issues"
+  },
+  "homepage": "https://github.com/elvisphilipn/CloudMsgr#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "swagger": "^0.7.5"
+  }
+}
