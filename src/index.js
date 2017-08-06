@@ -1,7 +1,22 @@
 const {spawn}  = require('child_process');
 
 // Start Rethink DB
-// TO-DO
+const RETHNKDB = spawn('rethinkdb', [
+  '-d', '/opt/db_files',
+  '--bind', 'all',
+  '--http-port', '8081']);
+
+RETHNKDB.stdout.on('data', (data) => {
+  console.log(`RETHNKDB - stdout: ${data}`);
+});
+
+RETHNKDB.stderr.on('data', (data) => {
+  console.log(`RETHNKDB - stderr: ${data}`);
+});
+
+RETHNKDB.on('close', (code) => {
+  console.log(`RETHNKDB child process exited with code ${code}`);
+});
 
 // Stary Swagger (REST Service)
 let options = {
