@@ -1,7 +1,8 @@
 'use strict';
 
 const SWAGGER_EXPRESS = require('swagger-express-mw');
-const APP = require('express')();
+const EXPRESS = require('express');
+const APP = EXPRESS();
 const SWAGGER_UI = require('swagger-tools/middleware/swagger-ui');
 module.exports = APP; // for testing
 
@@ -14,6 +15,12 @@ SWAGGER_EXPRESS.create(config, function(err, swaggerExpress) {
 
   // add swagger-ui
   APP.use(SWAGGER_UI(swaggerExpress.runner.swagger));
+
+  // add bootstrap
+  APP.use('/', EXPRESS.static(__dirname + '/ui')); // redirect root
+  APP.use('/js', EXPRESS.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+  APP.use('/js', EXPRESS.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+  APP.use('/css', EXPRESS.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
   // install middleware
   swaggerExpress.register(APP);

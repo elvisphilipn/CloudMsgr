@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/elvisphilipn/CloudMsgr#readme",
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "express": "^4.12.3",
+    "jquery": "^3.2.1",
     "swagger-express-mw": "^0.1.0",
     "swagger-tools": "^0.10.1"
   }
