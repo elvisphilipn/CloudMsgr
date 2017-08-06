@@ -4,12 +4,21 @@ const SWAGGER_EXPRESS = require('swagger-express-mw');
 const EXPRESS = require('express');
 const APP = EXPRESS();
 const SWAGGER_UI = require('swagger-tools/middleware/swagger-ui');
+const DB_HELPER = require('./api/helpers/db');
 module.exports = APP; // for testing
 
 var config = {
   appRoot: __dirname // required config
 };
 
+// Init rethinkdb
+DB_HELPER.initSchema(function(error){
+  if(error) {
+    // TO-DO
+  }
+});
+
+// Start Swagger-Express
 SWAGGER_EXPRESS.create(config, function(err, swaggerExpress) {
   if (err) { throw err; }
 
