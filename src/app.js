@@ -12,9 +12,16 @@ var config = {
 };
 
 // Init rethinkdb
-DB_HELPER.initSchema(function(error){
+DB_HELPER.initSchema(function(error) {
   if(error) {
     // TO-DO
+  } else {
+    // all is good
+    DB_HELPER.initTables(function() {
+      if(error) {
+        // TO-DO
+      }
+    });
   }
 });
 
