@@ -13,9 +13,9 @@ const TABLE_NAME_MSG = 'messages';
  * @param {function} callback - the callback function
  */
 function initSchema(callback) {
-  r.connect('localhost', function( error, conn){
+  r.connect('localhost', function(error, conn){
     if(error) {
-      console.error('CloudMsgr - Filed to connect to DB: ' + error);
+      console.error('CloudMsgr - init schema - Failed to connect to DB: ' + error);
       callback(error);
     } else {
       // check whether rthe database already exist
@@ -24,11 +24,20 @@ function initSchema(callback) {
         return r.branch(doesExist, '', r.dbCreate(DB_NAME));
       }).run(conn, function(err){
         if(err) {
-          console.error('CloudMsgr - File to create DB: ' + err);
+          console.error('CloudMsgr - init schema - Failed to create DB: ' + err);
         }
         // close the connection
         conn.close(callback(err));
       });
+    }
+  });
+}
+
+function initTables(callback) {
+  r.connect('localhost', function(error, conn){
+    if(error) {
+      console.error('CloudMsgr - init tables - ');
+      callback(error);
     }
   });
 }
