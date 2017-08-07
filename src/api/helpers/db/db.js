@@ -17,7 +17,7 @@ const COLUMN_NAME_PARTICIPANTS = 'participants';
 function initSchema(callback) {
   r.connect('localhost', function(error, conn){
     if(error) {
-      console.error('CloudMsgr - init schema - Failed to connect to RethinkDB: 'participants
+      console.error('CloudMsgr - init schema - Failed to connect to RethinkDB: '
       + error);
       callback(error);
     } else {
@@ -71,8 +71,10 @@ function initTables(callback) {
           callback();
         }
         conn.close(function(error){
-          console.error('CloudMsgr - init tables - An error occured while '
-           + 'closing connection');
+          if (error) {
+            console.error('CloudMsgr - init tables - An error occured while '
+            + 'closing connection');
+          }
         });
       });
     }
@@ -91,7 +93,7 @@ function createUser(user, callback){
       console.error('CloudMsgr - create user - Failed to connect to RethinkDB: '
       + error);
       callback(error);
-    } else (
+    } else {
       r.table(TABLE_NAME_USR).insert(user).run(conn, function(results){
         if(results.errors > 0) {
           Console.error('CloudMsgr - create user - Failed to store user in DB: '
@@ -101,12 +103,14 @@ function createUser(user, callback){
           callback();
         }
         conn.close(function(error){
-          console.error('CloudMsgr - create user - An error occured while '
-           + 'closing connection');
+          if (error) {
+            console.error('CloudMsgr - create user - An error occured while '
+            + 'closing connection');
+          }
         });
       });
-    )
-  }):
+    }
+  });
 }
 
 /**
@@ -121,7 +125,7 @@ function createConverstaion(participants, callback) {
       console.error('CloudMsgr - create createConverstaion - Failed to '
         + 'connect to RethinkDB: ' + error);
       callback(error);
-    } else (
+    } else {
       r.table(TABLE_NAME_CONV).insert({COLUMN_NAME_PARTICIPANTS: participants})
       .run(conn, function(results){
         if(results.errors > 0) {
@@ -131,32 +135,48 @@ function createConverstaion(participants, callback) {
         } else {
           callback();
         }
-        conn.close(function(error){
-          console.error('CloudMsgr - create user - An error occured while '
-           + 'closing connection');
+        conn.close(function(error) {
+          if (error) {
+            console.error('CloudMsgr - create user - An error occured while '
+            + 'closing connection');
+          }
         });
       });
-    )
-  }):
+    }
+  });
 }
 
+/**
+ * Reterns all the converstaios for a given participant.
+ *
+ * @param {string} userID - the user unique id (emial)
+ * @param {function} callback - the callback functon
+ */
 function getConversiontrionsFor(userID, callback) {
   r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
     if(error) {
       console.error('CloudMsgr - create createConverstaion - Failed to '
         + 'connect to RethinkDB: ' + error);
       callback(error);
-    } else (
+    } else {
       r.table(TABLE_NAME_CONV).filter(r.row(COLUMN_NAME_PARTICIPANTS)
       .contains(userID)).run(conn, function(results){
         callback(results);
-        conn.close(function(error){
-          console.error('CloudMsgr - conversations - An error occured while '
-           + 'closing connection');
+        conn.close(function(error) {
+          if (error) {
+            console.error('CloudMsgr - conversations - An error occured while '
+            + 'closing connection');
+          }
         });
       });
-    )
-  }):
+    }
+  });
+}
+
+function getMessagesIn(convoId, callback) {
+  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
+
+  });
 }
 
 module.exports = {
