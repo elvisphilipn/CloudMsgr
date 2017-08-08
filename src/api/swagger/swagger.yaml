@@ -4,9 +4,9 @@ info:
   title: CloudMsgr
 # during dev, should point to your local machine
 host: localhost:10010
-# basePath prefixes all resource paths 
+# basePath prefixes all resource paths
 basePath: /
-# 
+#
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -17,7 +17,95 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+# use basic authentication
+securityDefinitions:
+  basicAuth:
+    type: basic
+# To apply Basic auth to the whole API:
+# security:
+#  - basicAuth: []
 paths:
+  /cloudmsgr/user:
+    x-swagger-router-controller: user
+    get:
+    # To apply Basic auth to an individual operation:
+      security:
+        - basicAuth: []
+      description: Return the profile of a user
+      operationId: getUserInfo
+      parameters:
+        - name: email
+          in: query
+          description: the emial address of the user
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getUserResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Creates a new user profile
+      operationId: createUser
+      parameters:
+        - name: email
+          in: query
+          description: users's unique identifier
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: user's password
+          required: true
+          type: string
+        - name: first_name
+          in: query
+          description: user's first name
+          required: true
+          type: string
+        - name: last_name
+          in: query
+          description: user's last name
+          required: false
+          type: string
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /cloudmsgr/participants:
+    x-swagger-router-controller: user
+    get:
+    # To apply Basic auth to an individual operation:
+      security:
+        - basicAuth: []
+      description: Return a list of all users
+      operationId: getParticipants
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getParticipantsResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
@@ -52,9 +140,28 @@ definitions:
     properties:
       message:
         type: string
+  getUserResponse:
+    type: object
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+  getParticipantsResponse:
+    type: array
+    items:
+      type: string
   ErrorResponse:
     required:
       - message
     properties:
       message:
+        type: string
+responses:
+  UnauthorizedError:
+    description: Unauthorized
+    headers:
+      WWW_Authenticate:
         type: string
