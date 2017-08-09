@@ -5,6 +5,7 @@ const EXPRESS = require('express');
 const APP = EXPRESS();
 const SWAGGER_UI = require('swagger-tools/middleware/swagger-ui');
 const DB_HELPER = require('./api/helpers/db');
+const SANITIZE = require('sanitize')
 module.exports = APP; // for testing
 
 var config = {
@@ -31,6 +32,9 @@ SWAGGER_EXPRESS.create(config, function(err, swaggerExpress) {
 
   // add swagger-ui
   APP.use(SWAGGER_UI(swaggerExpress.runner.swagger));
+
+  // add sanitize
+  APP.use(SANITIZE.middleware);
 
   // add bootstrap
   APP.use('/', EXPRESS.static(__dirname + '/ui')); // redirect root
