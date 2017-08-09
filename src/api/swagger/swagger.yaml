@@ -30,7 +30,7 @@ paths:
     get:
     # To apply Basic auth to an individual operation:
       #security:
-      #  - basicAuth: []
+        # - basicAuth: []
       description: Return the profile of a user
       operationId: getUserInfo
       parameters:
@@ -47,15 +47,17 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/HttpCodeResponse"
         "401":
           $ref: "#/responses/UnauthorizedError"
         "404":
           description: Not Found
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/HttpCodeResponse"
     put:
       description: Creates a new user profile
       operationId: createUser
@@ -83,20 +85,22 @@ paths:
       responses:
         "201":
           description: Created
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/HttpCodeResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/HttpCodeResponse"
   /cloudmsgr/participants:
     x-swagger-router-controller: user
     get:
     # To apply Basic auth to an individual operation:
-#      security:
-#        - basicAuth: []
+      # security:
+        # - basicAuth: []
       description: Return a list of all users
       operationId: getParticipants
       responses:
@@ -104,6 +108,10 @@ paths:
           description: Sucess
           schema:
             $ref: "#/definitions/getParticipantsResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
         "401":
           $ref: "#/responses/UnauthorizedError"
   /hello:
@@ -129,7 +137,7 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/HttpCodeResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -152,8 +160,15 @@ definitions:
   getParticipantsResponse:
     type: array
     items:
-      type: string
-  ErrorResponse:
+      type: object
+      properties:
+          email:
+            type: string
+          first_name:
+            type: string
+          last_name:
+            type: string
+  HttpCodeResponse:
     required:
       - message
     properties:
