@@ -18,9 +18,9 @@ consumes:
 produces:
   - application/json
 # use basic authentication
-securityDefinitions:
-  basicAuth:
-    type: basic
+#securityDefinitions:
+#  basicAuth:
+#    type: basic
 # To apply Basic auth to the whole API:
 # security:
 #  - basicAuth: []
@@ -29,8 +29,8 @@ paths:
     x-swagger-router-controller: user
     get:
     # To apply Basic auth to an individual operation:
-      security:
-        - basicAuth: []
+      #security:
+      #  - basicAuth: []
       description: Return the profile of a user
       operationId: getUserInfo
       parameters:
@@ -95,8 +95,8 @@ paths:
     x-swagger-router-controller: user
     get:
     # To apply Basic auth to an individual operation:
-      security:
-        - basicAuth: []
+#      security:
+#        - basicAuth: []
       description: Return a list of all users
       operationId: getParticipants
       responses:
