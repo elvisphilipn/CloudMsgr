@@ -145,7 +145,9 @@ function getUser(userID, callback) {
 }
 
 /**
+ * Helper for getting all the user in CloudMsgr.
  *
+ * @param {function} callback - the callback function
  */
 function getAllUsers(callback) {
   r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
@@ -242,6 +244,12 @@ function getConversiontrionsFor(userID, callback) {
   });
 }
 
+/**
+ * Helper that produces a list of messages in a given conversation.
+ *
+ * @param {string} convoId - the conversation unique identifier
+ * @param {function} callback - the callback function
+ */
 function getMessagesIn(convoId, callback) {
   r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
 
@@ -253,5 +261,6 @@ module.exports = {
   initTables: initTables,
   createUser, createUser,
   getUser: getUser,
-  getAllUsers: getAllUsers
+  getAllUsers: getAllUsers,
+  getMessagesIn: getMessagesIn
 };
