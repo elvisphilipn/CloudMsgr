@@ -110,7 +110,7 @@ paths:
       # security:
         # - basicAuth: []
       description: Return all the converstaions for a given user
-      operationId: getUserConverstaions
+      operationId: getUserConversations
       parameters:
         - name: id
           in: path

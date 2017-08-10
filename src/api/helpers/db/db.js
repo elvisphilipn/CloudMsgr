@@ -187,29 +187,28 @@ function getAllUsers(callback) {
 /**
  * Adds a new conversation to the DB for given participants.
  *
- * @param {array} participants - an aary of email address of people
+ * @param {object} conv - the conversta oject
  * @param {function} callback - the callback function
  */
-function createConverstaion(participants, callback) {
+function createConverstaion(conv, callback) {
   r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
     if(error) {
-      console.error('DB Helper - create createConverstaion - Failed to '
+      console.error('DB Helper - create converstaion - Failed to '
         + 'connect to RethinkDB: ' + error);
       callback(error);
     } else {
-      r.table(TABLE_NAME_CONV).insert({COLUMN_NAME_PARTICIPANTS: participants})
-      .run(conn, function(results){
-        if(results.errors > 0) {
-          Console.error('DB Helper - create user - Failed to store user in DB: '
-          + user.email);
+      r.table(TABLE_NAME_CONV).insert(conv).run(conn, function(err){
+        if(err) {
+          Console.error('DB Helper - create converstaion - Failed to '
+           + 'store user in DB: '+ user.email);
           callback(results);
         } else {
-          callback();
+          callback(err);
         }
         conn.close(function(error) {
           if (error) {
-            console.error('DB Helper - create user - An error occured while '
-            + 'closing connection');
+            console.error('DB Helper - create converstaion - An error '
+            + 'occured while closing connection');
           }
         });
       });
@@ -226,17 +225,31 @@ function createConverstaion(participants, callback) {
 function getConversiontrionsFor(userID, callback) {
   r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
     if(error) {
-      console.error('DB Helper - create createConverstaion - Failed to '
+      console.error('DB Helper - get converstaion for user - Failed to '
         + 'connect to RethinkDB: ' + error);
       callback(error);
     } else {
       r.table(TABLE_NAME_CONV).filter(r.row(COLUMN_NAME_PARTICIPANTS)
-      .contains(userID)).run(conn, function(results){
-        callback(results);
+      .contains(userID)).run(conn, function(err, cursor){
+        if(err) {
+          console.error('DB Helper - get all users - An error occured while'
+          + ' queryinh the DB');
+          callback(err)
+        } else {
+          cursor.toArray(function(err, results) {
+            if (err) {
+              console.error('DB Helper -get converstaion for user - An error'
+                + ' occured while fetching the uses from DB');
+              callback(error)
+            } else {
+              callback(null, results);
+            }
+          });
+        }
         conn.close(function(error) {
           if (error) {
-            console.error('DB Helper - conversations - An error occured while '
-            + 'closing connection');
+            console.error('DB Helper - get conversations for use - An error '
+              + 'occured while closing connection');
           }
         });
       });
@@ -262,5 +275,7 @@ module.exports = {
   createUser, createUser,
   getUser: getUser,
   getAllUsers: getAllUsers,
+  createConverstaion: createConverstaion,
+  getConversiontrionsFor: getConversiontrionsFor,
   getMessagesIn: getMessagesIn
 };
