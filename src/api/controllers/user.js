@@ -97,7 +97,11 @@ function getUserInfo(req, res) {
 }
 
 /**
+ * Handler for GET /cloudmsgr/participants. Returns a list of
+ * all users on CloudMsgr.
  *
+ * @param {object} req - the request object
+ * @param {object} res - the response object
  */
 function getParticipants(req, res) {
   DB_HELPER.getAllUsers(function(err, results) {
