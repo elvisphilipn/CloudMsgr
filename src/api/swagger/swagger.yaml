@@ -161,7 +161,7 @@ paths:
       # To apply Basic auth to an individual operation:
       # security:
         # - basicAuth: []
-      description: Creates a conversionation
+      description: Creates a new conversation
       operationId: createConversation
       parameters:
         - name: participants

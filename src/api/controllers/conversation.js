@@ -1,5 +1,11 @@
 'use strict';
 
+const DB_HELPER = require('../helpers/db');
+
+const PARAM_ID = 'id';
+const PARAM_PARTICIPANTS = 'participants';
+const PARAM_TITLE = 'title';
+
 /**
  * Handler for PUT /cloudmsgr/conversation. Cretes new converstaions in the DB.
  *
@@ -7,6 +13,11 @@
  * @param {object} res - the response object
  */
 function createConversation(req, res){
+  let participants = req.queryEmail(PARAM_PARTICIPANTS);
+  console.log(participants);
+  let title = req.queryString(PARAM_TITLE);
+  res.status(201);
+  res.json('Created');
 }
 
 /**
@@ -28,14 +39,24 @@ function getConverstaion(req, res) {
  */
 function getUserConverstaions(req, res) {
 }
+
 /**
- * Handler for POST /cloudmsgr/conversation/{id}/mesages.
- * Adds a new message to a  given converstaion.
+ * Handler for POST /cloudmsgr/conversation/{id}/last_message.
+ * Adds a new message to a given converstaion.
  *
  * @param {object} req - the request object
  * @param {object} res - the response object
  */
 function createMessage(req, res){}
+
+/**
+ * Handler for POST /cloudmsgr/message/{id}.
+ * Deletes a message from given converstaion, only if the deleter is the author.
+ *
+ * @param {object} req - the request object
+ * @param {object} res - the response object
+ */
+function deleteMessage(req, res){}
 
 /**
  * Handler for GET /cloudmsgr/conversation/{id}/messages.
@@ -61,6 +82,7 @@ module.exports = {
   createConversation: createConversation,
   getConverstaion: getConverstaion,
   createMessage: createMessage,
+  deleteMessage: deleteMessage,
   getMessages: getMessages,
   getLastMessage: getLastMessage
 };
