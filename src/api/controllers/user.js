@@ -3,7 +3,6 @@
 const buffer = require('buffer');
 const DB_HELPER = require('../helpers/db');
 
-const EMAIL_REGEX = new RegExp('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
 const PASSWORD_SALT = 'C10udM$9r';
 const PARAM_EMAIL = 'email';
 const PARAM_PWD = 'password';
@@ -18,7 +17,6 @@ const PARAM_LNAME = 'last_name';
  * @param {object} res - the responce object
  */
 function createUser(req, res) {
-  // res.status(404).send(`<h1>404: Invalid name: ${name}</h1>`);
   let user = {};
 
   let email = req.queryEmail(PARAM_EMAIL);
