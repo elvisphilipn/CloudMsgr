@@ -1,0 +1,23 @@
+body{
+    background: #E8E8E8;
+}
+
+header{
+    color: #FFFFFF;
+    background: #080808;
+}
+
+header h1{
+}
+
+div.mainContaint{
+    background: #FFFFFF;
+    border: solid 1px #C2C2C2;
+}
+
+input[type=text],input[type=email], input[type=password],
+input[type=submit], input[type=button]{
+    background: #F8F8F8;
+    border: solid 1px #C2C2C2;
+    border-radius: 5px;
+}
