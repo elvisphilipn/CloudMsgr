@@ -24,11 +24,11 @@
   "homepage": "https://github.com/elvisphilipn/CloudMsgr#readme",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "express": "^4.12.3",
+    "express": "^4.16.3",
     "jquery": "^3.2.1",
     "rethinkdb": "^2.3.3",
-    "sanitize": "^2.0.1",
-    "swagger-express-mw": "^0.1.0",
-    "swagger-tools": "^0.10.1"
+    "sanitize": "^2.1.0",
+    "swagger-express-mw": "^0.7.0",
+    "swagger-tools": "^0.10.3"
   }
 }
