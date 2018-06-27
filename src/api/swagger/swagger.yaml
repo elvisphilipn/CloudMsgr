@@ -11,7 +11,7 @@ info:
     name: GNU General Public License (GPLv3)
     url: https://www.gnu.org/licenses/gpl-3.0.html
 # during dev, should point to your local machine
-host: localhost:10010
+host: localhost:8080
 # basePath prefixes all resource paths
 basePath: /
 #
