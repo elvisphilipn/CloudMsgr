@@ -19,7 +19,7 @@ docker run --rm -d -p 8080:8080  -p 8081:8081 -v /<path to db files>:/opt/db_fil
 
 ## Servce Endpoints
 CloudMsgr esposes the following resources via HTTP:
-- http://localhost:8080/-the Web front end
+- http://localhost:8080/ - the Web front end
 - http://localhost:8080/cloudmsgr - the REST service
 - http://localhost:8080/docs -the API documentations (interactive, for dev/debugging)
 - http://localhost:8081/ - RethinkDB's console (for dev/debugging)
