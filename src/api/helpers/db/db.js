@@ -8,6 +8,7 @@ const TABLE_PRIM_KEY_USR  = 'email';
 const TABLE_NAME_MSG = 'messages';
 const TABLE_NAME_CONV = 'conversations';
 const COLUMN_NAME_PARTICIPANTS = 'participants';
+const COLUMN_NAME_MESSAGES = "messages"
 
 /**
  * Connects to RethinkDB and creates the needed
@@ -39,13 +40,22 @@ function initSchema(callback) {
 }
 
 /**
+ * Utility function for establishing DB connections
+ *
+ * @param {function} callback - the callback function
+ */
+function dbConnect(callback) {
+  r.connect({'host': 'localhost', 'db': DB_NAME}, callback);
+}
+
+/**
  * Connects to RethinkDB and validates that the needed
  * tables are indeed in the database; otherwise create them.
  *
  * @param {function} callback - the callback function
  */
 function initTables(callback) {
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn){
+  dbConnect(function(error, conn){
     if(error) {
       console.error('DB Helper - init tables - Failed to connect to DB'
       + error);
@@ -89,7 +99,7 @@ function initTables(callback) {
  * @param {function} callback - a callback fucntion
  */
 function createUser(user, callback){
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
+  dbConnect(function(error, conn) {
     if(error) {
       console.error('DB Helper - create user - Failed to connect to RethinkDB: '
       + error);
@@ -99,7 +109,7 @@ function createUser(user, callback){
         if(err) {
           Console.error('DB Helper - create user - Failed to store user in DB: '
           + user.email);
-          callback(results);
+          callback(null, results);
         } else {
           callback();
         }
@@ -121,7 +131,7 @@ function createUser(user, callback){
  * @param {functon} callback - the callback function
  */
 function getUser(userID, callback) {
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
+  dbConnect(function(error, conn) {
     if(error) {
       console.error('DB Helper - get user - Failed to connect to RethinkDB: '
         + error);
@@ -150,7 +160,7 @@ function getUser(userID, callback) {
  * @param {function} callback - the callback function
  */
 function getAllUsers(callback) {
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
+  dbConnect(function(error, conn) {
     if(error) {
       console.error('DB Helper - get all users - Failed to connect to'
         +' RethinkDB: '+ error);
@@ -191,7 +201,7 @@ function getAllUsers(callback) {
  * @param {function} callback - the callback function
  */
 function createConverstaion(conv, callback) {
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
+  dbConnect(function(error, conn) {
     if(error) {
       console.error('DB Helper - create converstaion - Failed to '
         + 'connect to RethinkDB: ' + error);
@@ -200,8 +210,8 @@ function createConverstaion(conv, callback) {
       r.table(TABLE_NAME_CONV).insert(conv).run(conn, function(err){
         if(err) {
           Console.error('DB Helper - create converstaion - Failed to '
-           + 'store user in DB: '+ user.email);
-          callback(results);
+           + 'store conversation in DB: '+ conv.id);
+          callback(null, results);
         } else {
           callback(err);
         }
@@ -223,7 +233,7 @@ function createConverstaion(conv, callback) {
  * @param {function} callback - the callback functon
  */
 function getConversiontrionsFor(userID, callback) {
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
+  dbConnect(function(error, conn) {
     if(error) {
       console.error('DB Helper - get converstaion for user - Failed to '
         + 'connect to RethinkDB: ' + error);
@@ -258,14 +268,37 @@ function getConversiontrionsFor(userID, callback) {
 }
 
 /**
+ * Adds a user message to a converstation.
+ *
+ * @param {string} convoId - the converation unique identifier
+ * @param {object} message - the message object
+ * @param {function} callback - the callback function
+ */
+function addMessageto(convoId, message, callback) {
+  dbConnect(function(error, conn) {
+    if(error) {
+      console.error('DB Helper - add messages to conversation - Failed to '
+        + 'connect to RethinkDB: ' + error);
+      callback(error);
+    } else {}
+  });
+}
+
+/**
  * Helper that produces a list of messages in a given conversation.
  *
  * @param {string} convoId - the conversation unique identifier
+ * @param {number} resultSize - the numberr of results to return
+ * @param {number} page - the page number
  * @param {function} callback - the callback function
  */
-function getMessagesIn(convoId, callback) {
-  r.connect({'host': 'localhost', 'db': DB_NAME}, function(error, conn) {
-
+function getMessagesIn(convoId, resultSize, page, callback) {
+  dbConnect(function(error, conn) {
+    if(error) {
+      console.error('DB Helper - get messages In conversation - Failed to '
+        + 'connect to RethinkDB: ' + error);
+      callback(error);
+    } else {}
   });
 }
 
