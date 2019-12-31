@@ -7,7 +7,6 @@ const TABLE_NAME_USR = 'users';
 const TABLE_PRIM_KEY_USR  = 'email';
 const TABLE_NAME_MSG = 'messages';
 const TABLE_NAME_CONV = 'conversations';
-const COLUMN_NAME_PARTICIPANTS = 'participants';
 const COLUMN_NAME_MESSAGES = "messages"
 
 /**
@@ -239,22 +238,13 @@ function getConversiontrionsFor(userID, callback) {
         + 'connect to RethinkDB: ' + error);
       callback(error);
     } else {
-      r.table(TABLE_NAME_CONV).filter(r.row(COLUMN_NAME_PARTICIPANTS)
-      .contains(userID)).run(conn, function(err, cursor){
+      r.table(TABLE_NAME_USR).get(userID).run(conn, function(err, cursor) {
         if(err) {
-          console.error('DB Helper - get all users - An error occured while'
+          console.error('DB Helper - get converstaion for user - An error occured while'
           + ' queryinh the DB');
           callback(err)
         } else {
-          cursor.toArray(function(err, results) {
-            if (err) {
-              console.error('DB Helper -get converstaion for user - An error'
-                + ' occured while fetching the uses from DB');
-              callback(error)
-            } else {
-              callback(null, results);
-            }
-          });
+          callback(null, cursor.conversations);
         }
         conn.close(function(error) {
           if (error) {
@@ -265,6 +255,17 @@ function getConversiontrionsFor(userID, callback) {
       });
     }
   });
+}
+
+/**
+ * Upates the user's conversation list in the database.
+ *
+ * @param {string} userID - the user identifier (email)
+ * @param {string} convoID - the conversation identifier
+ * @param {function} callback - the callback function
+ */
+function adduserToConversation(userID, convoID, callback) {
+  // update the the object
 }
 
 /**

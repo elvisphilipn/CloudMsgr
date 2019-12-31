@@ -1,0 +1,462 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: CloudMsgr
+  description: The API for the messenger in the cloud
+  contact:
+    name: Elvis-Philip N
+    url: https://github.com/elvisphilipn/CloudMsgr
+    email: support@example.com
+  license:
+    name: GNU General Public License (GPLv3)
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+# use basic authentication
+#securityDefinitions:
+#  basicAuth:
+#    type: basic
+# To apply Basic auth to the whole API:
+# security:
+#  - basicAuth: []
+paths:
+  /cloudmsgr/user:
+    x-swagger-router-controller: user
+    get:
+      # To apply Basic auth to an individual operation:
+      #security:
+        # - basicAuth: []
+      description: Return the profile of a user
+      operationId: getUserInfo
+      parameters:
+        - name: email
+          in: query
+          description: the emial address of the user
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getUserResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+    put:
+      description: Creates a new user profile
+      operationId: createUser
+      parameters:
+        - name: email
+          in: query
+          description: users's unique identifier
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: user's password
+          required: true
+          type: string
+        - name: first_name
+          in: query
+          description: user's first name
+          required: true
+          type: string
+        - name: last_name
+          in: query
+          description: user's last name
+          required: false
+          type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /cloudmsgr/user/{id}/converstions:
+    x-swagger-router-controller: conversation
+    get:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Return all the converstaions for a given user
+      operationId: getUserConversations
+      parameters:
+        - name: id
+          in: path
+          description: conversation's unique identifier
+          required: true
+          type: string
+      responses:
+        "200":
+          description: sucess
+          schema:
+            $ref: "#/definitions/getUserConverstaionsResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /cloudmsgr/participants:
+    x-swagger-router-controller: user
+    get:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Return a list of all users
+      operationId: getParticipants
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getParticipantsResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+  /cloudmsgr/conversation:
+    x-swagger-router-controller: conversation
+    put:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Creates a new conversation
+      operationId: createConversation
+      parameters:
+        - name: participants
+          in: query
+          description: Array of all the users in the converstation
+          required: true
+          type: array
+          items:
+            type: string
+        - name: title
+          in: query
+          description: the converstaion's title
+          required: false
+          type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /cloudmsgr/conversation/{id}:
+    x-swagger-router-controller: conversation
+    get:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Return converstaion info with messages
+      operationId: getConverstaion
+      parameters:
+        - name: id
+          in: path
+          description: conversation's unique identifier
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getConversationResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /cloudmsgr/converation/{id}/messages:
+    x-swagger-router-controller: conversation
+    get:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Return a list of the last x messages in a converstaion
+      operationId: getMessages
+      parameters:
+        - name: id
+          in: path
+          description: conversation's unique identifier
+          required: true
+          type: string
+        - name: last_message
+          in: query
+          description: last message id, as time boundary to start counting messages (defaults to the last message in conversation)
+          required: false
+          type: string
+        - name: include_previous
+          in: query
+          description: number of items to include, previous to last messge. (defaults to 10 items)
+          required: false
+          type: integer
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getMessageResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /cloudmsgr/converation/{id}/last_mesasge:
+    x-swagger-router-controller: conversation
+    get:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Return last message in a converstaion
+      operationId: getLastMessage
+      parameters:
+        - name: id
+          in: path
+          description: conversation's unique identifier
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getLastMessageResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+    post:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Adds a new messge to the current coverstaion
+      operationId: createMessage
+      parameters:
+        - name: id
+          in: path
+          description: the conversation's unique identifier
+          required: true
+          type: string
+        - name: author
+          in: query
+          description: the message author's unique identifier (email)
+          required: true
+          type: string
+        - name: date
+          in: query
+          description: the date and time of creation (defailts to server time)
+          required: false
+          type: string
+        - name: message
+          in: query
+          description: the message's content
+          required: true
+          type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /cloudmsgr/message/{id}:
+    x-swagger-router-controller: conversation
+    delete:
+      # To apply Basic auth to an individual operation:
+      # security:
+        # - basicAuth: []
+      description: Return last message in a converstaion
+      operationId: deleteMessage
+      parameters:
+        - name: id
+          in: path
+          description: the message unique identifier
+          required: true
+          type: string
+        - name: user
+          in: query
+          description: user's id (email) that wants to delete message (safety feature, on the original author may delete)
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Sucess
+          schema:
+            $ref: "#/definitions/getLastMessageResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+        "401":
+          $ref: "#/responses/UnauthorizedError"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/HttpCodeResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  getUserResponse:
+    type: object
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+  getParticipantsResponse:
+    type: array
+    items:
+      type: object
+      properties:
+          email:
+            type: string
+          first_name:
+            type: string
+          last_name:
+            type: string
+  getConversationResponse:
+    type: object
+    properties:
+      title:
+        type: string
+      participants:
+        type: array
+        items:
+          type: string
+      last_change:
+        type: string
+  getUserConverstaionsResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        title:
+          type: string
+        participants:
+          type: array
+          items:
+            type: string
+        last_change:
+          type: string
+  getMessageResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        author:
+          type: string
+        date:
+          type: string
+        palandrome:
+          type: boolean
+        message:
+          type: string
+  getLastMessageResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      author:
+        type: string
+      date:
+        type: string
+      palandrome:
+        type: boolean
+      message:
+        type: string
+  HttpCodeResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+responses:
+  UnauthorizedError:
+    description: Unauthorized
+    headers:
+      WWW_Authenticate:
+        type: string

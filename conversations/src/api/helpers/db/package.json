@@ -1,0 +1,24 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "RethinkDB helper mpdule for CloudMsgr",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elvisphilipn/CloudMsgr.git"
+  },
+  "keywords": [
+    "Cloud",
+    "Messenger",
+    "RethinkDB"
+  ],
+  "author": "Elvis-Philip N",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/elvisphilipn/CloudMsgr/issues"
+  },
+  "homepage": "https://github.com/elvisphilipn/CloudMsgr#readme"
+}
