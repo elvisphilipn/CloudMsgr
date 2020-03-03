@@ -1,6 +1,6 @@
 # CloudMsgr
 Messenger in the cloud built on Swagger (OpenApi), ExpressJS, Bootstrap and RethinkDB. The service is shipped as a Docker container, for on prem or cloud deployment.
-
+https://github.com/elvisphilipn/CloudMsgr/edit/master/README.md
 ## Build Container
 To build a deployable instance of CloudMsgr, one would need to have the latest version of Docker installed on their computer, see https://www.docker.com/. In a termial, please enter the following command
 ```
@@ -23,3 +23,5 @@ CloudMsgr esposes the following resources via HTTP:
 - http://localhost:8080/cloudmsgr - the REST service
 - http://localhost:8080/docs -the API documentations (interactive, for dev/debugging)
 - http://localhost:8081/ - RethinkDB's console (for dev/debugging)
+
+Coming soon... Breakup the project into microservices
