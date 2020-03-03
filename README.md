@@ -1,6 +1,5 @@
 # CloudMsgr
 Messenger in the cloud built on Swagger (OpenApi), ExpressJS, Bootstrap and RethinkDB. The service is shipped as a Docker container, for on prem or cloud deployment.
-
 ## Build Container
 To build a deployable instance of CloudMsgr, one would need to have the latest version of Docker installed on their computer, see https://www.docker.com/. In a termial, please enter the following command
 ```
