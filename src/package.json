@@ -26,7 +26,7 @@
     "bootstrap": "^4.1.1",
     "deep-extend": ">=0.5.1",
     "express": "^4.16.3",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "rethinkdb": "^2.3.3",
     "sanitize": "^2.1.0",
     "swagger-express-mw": "^0.7.0",
